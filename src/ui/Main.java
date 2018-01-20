@@ -15,9 +15,19 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("MainWindow.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("MainWindow.fxml"));
+
+        Parent root = fxmlLoader.load();
+        Controller controller = fxmlLoader.getController();
+
         primaryStage.setTitle("FirstFollow-Generator");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.setMinWidth(380);
+        primaryStage.setMinHeight(380);
+
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add("ui/MainWindow.css");
+        primaryStage.setScene(scene);
         primaryStage.show();
     }
 

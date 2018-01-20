@@ -1,0 +1,45 @@
+.orange-button {
+    -fx-font: 20px "Arial";
+    -fx-font-weight: Bold;
+    -fx-padding: 10px 100px 10px 100px;
+    -fx-background-color: #FF7E22;
+    -fx-background-radius: 0;
+    -fx-cursor: hand;
+}
+
+.orange-button:hover {
+    -fx-background-color: #F57418;
+}
+
+.orange-button:pressed {
+    -fx-background-color: #EB6A0E;
+}
+
+#LayoutStack {
+    -fx-background-color: #3F3F46;
+}
+
+#GrammarBox {
+    -fx-font: 26px "Consolas";
+    -fx-padding: 8;
+
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #FFFFFF;
+    -fx-border-width: 0;
+    -fx-border-image-width: 0;
+    -fx-background-image: null;
+    -fx-region-background: null;
+}
+
+#GrammarBox .content {
+    -fx-background-color: transparent, white, transparent, white;
+}
+
+#GrammarBox:focused .content {
+    -fx-background-color: transparent, white, transparent, white;
+}
+
+#LblGrammar {
+    -fx-font: 20px "Consolas";
+    -fx-font-weight: Bold;
+}

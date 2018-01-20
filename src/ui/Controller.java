@@ -5,5 +5,14 @@
 // ---------------------------------------------------------------------
 package ui;
 
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.StackPane;
+
 public class Controller {
+    public TextArea GrammarBox;
+    public Button BtnCalc;
+    public Label LblGrammar;
+    public StackPane LayoutStack;
 }
