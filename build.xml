@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="FirstFollow-Generator" default="all" basedir="." xmlns:fx="javafx:com.sun.javafx.tools.ant">
+
+    <!-- compilation options -->
+    <property name="java.encoding" value="UTF-8"/>
+    <property name="java.source"   value="1.9"/>
+    <property name="java.target"   value="1.9"/>
+    <property name="java.args"     value="-Xlint:all"/>
+
+    <!-- directories -->
+    <property name="src.dir"   value="src"/>
+    <property name="build.dir" value="build"/>
+    <property name="dist.dir"  value="dist"/>
+    <property name="doc.dir"   value="doc"/>
+
+    <!-- library paths -->
+    <path id="classpath">
+        <fileset dir="${java.home}/lib" includes="**/*.jar"/>
+    </path>
+
+    <!-- main class and jar name -->
+    <property name="main.class" value="ui.Main"/>
+    <property name="jar.name"   value="${ant.project.name}"/>
+
+
+    <!-- All targets -->
+    <target name="all"
+            depends="compile, jar, doc">
+    </target>
+
+    <!-- Compile classes -->
+    <target name="compile">
+        <mkdir dir="${build.dir}"/>
+        <javac source="${java.source}" target="${java.target}"
+               encoding="${java.encoding}"
+               classpathref="classpath"
+               srcdir="${src.dir}" destdir="${build.dir}"
+               includeantruntime="false"
+               failonerror="true"
+               fork="yes">
+        </javac>
+        <copy todir="${build.dir}">
+            <fileset dir="${src.dir}">
+                <include name="**/*.png" />
+                <include name="**/*.fxml" />
+                <include name="**/*.css" />
+            </fileset>
+        </copy>
+    </target>
+
+    <!-- Compile jar -->
+    <target name="jar" depends="compile">
+        <mkdir dir="${dist.dir}"/>
+        <taskdef resource="com/sun/javafx/tools/ant/antlib.xml"
+                 uri="javafx:com.sun.javafx.tools.ant"
+                 classpath="${java.home}/lib/ant-javafx.jar"/>
+
+        <fx:jar destfile="${dist.dir}/${jar.name}.jar">
+            <fx:application mainClass="${main.class}"/>
+            <fileset dir="${build.dir}"/>
+        </fx:jar>
+    </target>
+
+    <!-- Execute jar -->
+    <target name="run" depends="jar">
+        <java jar="${dist.dir}/${jar.name}.jar" fork="true"/>
+    </target>
+
+    <!-- Java documentation -->
+    <target name="doc">
+        <javadoc destdir="${doc.dir}"
+                 encoding="UTF-8" docencoding="UTF-8" charset="UTF-8"
+                 author="true" use="true" failonerror="false">
+            <arg value="-quiet"/>
+            <fileset dir="${src.dir}"/>
+        </javadoc>
+    </target>
+
+    <!-- Clean project -->
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+        <delete dir="${dist.dir}"/>
+        <delete dir="${doc.dir}"/>
+    </target>
+</project>
