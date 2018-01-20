@@ -4,6 +4,17 @@
 # Log file
 *.log
 
+# IDEA
+*.iml
+.idea
+
+# Build directories
+build
+out
+
+# Javadoc
+doc
+
 # BlueJ files
 *.ctxt
 
