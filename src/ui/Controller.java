@@ -18,6 +18,7 @@ public class Controller {
     public StackPane LayoutStack;
     public ScrollPane ResultScrollPane;
     public GridPane FirstFollowGrid;
+    public GridPane PredictGrid;
 
     /** Prototype reference for creating column constraints */
     final ColumnConstraints COLUMN_PROTOTYPE = new ColumnConstraints(
@@ -53,11 +54,11 @@ public class Controller {
      */
     public void CalculateSets(ActionEvent actionEvent) {
         ClearGrid(FirstFollowGrid);
+        ClearGrid(PredictGrid);
         ResultScrollPane.setVisible(true);
 
         AddHeadlines(FirstFollowGrid, "Symbol", "FIRST", "FOLLOW");
-        AddRow(FirstFollowGrid, "AB", "{A, B}", "{A, B, C}");
-        AddRow(FirstFollowGrid, "AC", "{J, L}", "{D, C}");
+        AddHeadlines(PredictGrid, "Production", "PREDICT");
     }
 
     /**
