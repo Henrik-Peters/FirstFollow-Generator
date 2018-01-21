@@ -3,13 +3,15 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
-<StackPane fx:controller="ui.Controller" fx:id="LayoutStack" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane fx:id="LayoutStack" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.Controller">
     <children>
         <GridPane>
             <columnConstraints>
@@ -24,7 +26,7 @@
             </rowConstraints>
             <children>
                 <TextArea fx:id="GrammarBox" prefHeight="200.0" prefWidth="200.0" text="S -&gt; ABC&#10;A -&gt; C | a&#10;B -&gt; b | ε&#10;C -&gt; c" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                <Button fx:id="BtnCalc" mnemonicParsing="false" styleClass="orange-button" text="Calculate" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                <Button fx:id="BtnCalc" mnemonicParsing="false" onAction="#CalculateSets" styleClass="orange-button" text="Calculate" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
                     <GridPane.margin>
                         <Insets top="15.0" />
                     </GridPane.margin>
@@ -35,5 +37,24 @@
                     </GridPane.margin></Label>
             </children>
         </GridPane>
+        <ScrollPane fx:id="ResultScrollPane" fitToWidth="true" visible="false">
+            <content>
+                <VBox alignment="CENTER" fillWidth="false">
+                    <children>
+                        <GridPane fx:id="FirstFollowGrid">
+                            <columnConstraints>
+                                <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints fillHeight="false" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            </rowConstraints>
+                            <VBox.margin>
+                                <Insets top="10.0" />
+                            </VBox.margin>
+                        </GridPane>
+                    </children>
+                </VBox>
+            </content>
+        </ScrollPane>
     </children>
 </StackPane>
