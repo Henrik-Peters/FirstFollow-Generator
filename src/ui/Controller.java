@@ -19,72 +19,154 @@ public class Controller {
     public ScrollPane ResultScrollPane;
     public GridPane FirstFollowGrid;
 
+    /** Prototype reference for creating column constraints */
+    final ColumnConstraints COLUMN_PROTOTYPE = new ColumnConstraints(
+            Control.USE_COMPUTED_SIZE,
+            Control.USE_COMPUTED_SIZE,
+            Control.USE_COMPUTED_SIZE,
+            Priority.SOMETIMES,
+            HPos.CENTER,
+            true);
+
+    /** Prototype reference for creating row constraints */
+    final RowConstraints ROW_PROTOTYPE = new RowConstraints(
+            Control.USE_COMPUTED_SIZE,
+            Control.USE_COMPUTED_SIZE,
+            Control.USE_COMPUTED_SIZE,
+            Priority.SOMETIMES,
+            VPos.CENTER,
+            true);
+
+    /** The style class name for all grid cells */
+    final String CELL_STYLE_CLASS = "grid-cell";
+
+    /** The style class name of cells in the first row */
+    final String HEADLINE_STYLE_CLASS = "grid-cell-headline";
+
+    /** The style class name of cells in the first column */
+    final String FIRST_COLUMN_STYLE_CLASS = "grid-cell-firstCol";
+
+    /**
+     * Start the grammar parsing, generate all sets,
+     * switch to the result page and show the sets
+     * @param actionEvent Event data of the button
+     */
     public void CalculateSets(ActionEvent actionEvent) {
         ClearGrid(FirstFollowGrid);
         ResultScrollPane.setVisible(true);
 
         AddHeadlines(FirstFollowGrid, "Symbol", "FIRST", "FOLLOW");
+        AddRow(FirstFollowGrid, "AB", "{A, B}", "{A, B, C}");
+        AddRow(FirstFollowGrid, "AC", "{J, L}", "{D, C}");
     }
 
-    private void ClearGrid(GridPane grid) {
+    /**
+     * Remove all children and constraints of a grid
+     * @param grid Remove from this grid
+     */
+    void ClearGrid(GridPane grid) {
         grid.getChildren().clear();
         grid.getRowConstraints().clear();
         grid.getColumnConstraints().clear();
     }
 
-    private void AddHeadlines(GridPane grid, String... headlines) {
+    /**
+     * Create a new column by a prototype and add it to a grid
+     * @param grid Add the new column to this grid
+     * @param prototype Create the new column by this reference
+     */
+    void CreateColumn(GridPane grid, ColumnConstraints prototype) {
+        grid.getColumnConstraints().add(new ColumnConstraints(
+                prototype.getMinWidth(),
+                prototype.getPrefWidth(),
+                prototype.getMaxWidth(),
+                prototype.getHgrow(),
+                prototype.getHalignment(),
+                prototype.isFillWidth())
+        );
+    }
+
+    /**
+     * Create a new row by a prototype and add it to a grid
+     * @param grid Add the new row to this grid
+     * @param prototype Create the new row by this reference
+     */
+    void CreateRow(GridPane grid, RowConstraints prototype) {
+        grid.getRowConstraints().add(new RowConstraints(
+                prototype.getMinHeight(),
+                prototype.getPrefHeight(),
+                prototype.getMaxHeight(),
+                prototype.getVgrow(),
+                prototype.getValignment(),
+                prototype.isFillHeight())
+        );
+    }
+
+    /**
+     * Add headlines to a grid. Maybe you want to
+     * clear the grid before calling this function.
+     * @param grid Apply the headlines to this grid
+     * @param headlines Content of the headlines
+     */
+    void AddHeadlines(GridPane grid, String... headlines) {
 
         for (String headline : headlines) {
-            grid.getColumnConstraints().add(new ColumnConstraints(
-                    Control.USE_COMPUTED_SIZE,
-                    Control.USE_COMPUTED_SIZE,
-                    Control.USE_COMPUTED_SIZE,
-                    Priority.SOMETIMES,
-                    HPos.CENTER,
-                    true));
+            CreateColumn(grid, COLUMN_PROTOTYPE);
         }
 
-        grid.getRowConstraints().add(new RowConstraints(
-                Control.USE_COMPUTED_SIZE,
-                Control.USE_COMPUTED_SIZE,
-                Control.USE_COMPUTED_SIZE,
-                Priority.SOMETIMES,
-                VPos.CENTER,
-                true));
+        CreateRow(grid, ROW_PROTOTYPE);
 
         for (int i = 0; i < headlines.length; i++) {
-            Label label = new Label(headlines[i]);
-            label.setMaxWidth(Double.MAX_VALUE);
-            label.getStyleClass().add("grid-cell");
-            label.getStyleClass().add("grid-cell-headline");
+            String[] stylesClasses;
 
             if (i == 0) {
-                label.getStyleClass().add("grid-cell-firstCol");
+                stylesClasses = new String[]{ CELL_STYLE_CLASS, HEADLINE_STYLE_CLASS, FIRST_COLUMN_STYLE_CLASS };
+            } else {
+                stylesClasses = new String[]{ CELL_STYLE_CLASS, HEADLINE_STYLE_CLASS };
             }
 
-            grid.add(label, i, grid.getRowCount() - 1);
+            SetCell(grid, headlines[i], i, grid.getRowCount() - 1, stylesClasses);
         }
     }
 
-    private void AddRow(GridPane grid, String... contents) {
-        grid.getRowConstraints().add(new RowConstraints(
-                Control.USE_COMPUTED_SIZE,
-                Control.USE_COMPUTED_SIZE,
-                Control.USE_COMPUTED_SIZE,
-                Priority.SOMETIMES,
-                VPos.CENTER,
-                true));
+    /**
+     * Add data contents to a grid by adding a new row. Make sure
+     * that the number of strings matches the number of columns.
+     * @param grid Add the new row to this grid
+     * @param contents Contents for the new row
+     */
+    void AddRow(GridPane grid, String... contents) {
+        CreateRow(grid, ROW_PROTOTYPE);
 
         for (int i = 0; i < contents.length; i++) {
-            Label label = new Label(contents[i]);
-            label.setMaxWidth(Double.MAX_VALUE);
-            label.getStyleClass().add("grid-cell");
+            String[] stylesClasses;
 
             if (i == 0) {
-                label.getStyleClass().add("grid-cell-firstCol");
+                stylesClasses = new String[]{ CELL_STYLE_CLASS, FIRST_COLUMN_STYLE_CLASS };
+            } else {
+                stylesClasses = new String[]{ CELL_STYLE_CLASS };
             }
 
-            grid.add(label, i, grid.getRowCount() - 1);
+            SetCell(grid, contents[i], i, grid.getRowCount() - 1, stylesClasses);
         }
+    }
+
+    /**
+     * Set the text of a cell in a grid
+     * @param grid The target grid of the cell
+     * @param text Text for the cell
+     * @param columnIndex Index of the column
+     * @param rowIndex Index of the row
+     * @param styleClasses Add these style classes to the text label
+     */
+    void SetCell(GridPane grid, String text, int columnIndex, int rowIndex, String... styleClasses) {
+        Label label = new Label(text);
+        label.setMaxWidth(Double.MAX_VALUE);
+
+        for (String styleClass : styleClasses) {
+            label.getStyleClass().add(styleClass);
+        }
+
+        grid.add(label, columnIndex, rowIndex);
     }
 }
