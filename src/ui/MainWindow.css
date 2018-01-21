@@ -1,3 +1,5 @@
+/* --------------------------- GrammarBox area --------------------------- */
+
 .orange-button {
     -fx-font: 20px "Arial";
     -fx-font-weight: Bold;
@@ -42,4 +44,22 @@
 #LblGrammar {
     -fx-font: 20px "Consolas";
     -fx-font-weight: Bold;
+}
+
+/* --------------------------- Result Grid --------------------------- */
+
+.grid-cell {
+    -fx-font: 20px "Consolas";
+    -fx-background-color: black, white;
+    -fx-background-insets: 0, 0 1 1 0;
+    -fx-alignment: center;
+    -fx-padding: 10px;
+}
+
+.grid-cell-headline {
+    -fx-font-weight: Bold;
+}
+
+.grid-cell-firstCol {
+    -fx-background-insets: 0, 0 1 1 1;
 }
