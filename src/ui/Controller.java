@@ -162,6 +162,7 @@ public class Controller {
      */
     void SetCell(GridPane grid, String text, int columnIndex, int rowIndex, String... styleClasses) {
         Label label = new Label(text);
+        label.setMinWidth(Region.USE_PREF_SIZE);
         label.setMaxWidth(Double.MAX_VALUE);
 
         for (String styleClass : styleClasses) {
