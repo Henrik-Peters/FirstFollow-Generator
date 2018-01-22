@@ -41,9 +41,9 @@
                     </GridPane.margin></Label>
             </children>
         </GridPane>
-        <ScrollPane fx:id="ResultScrollPane" fitToWidth="true" visible="false">
+        <ScrollPane fx:id="ResultScrollPane" fitToHeight="true" fitToWidth="true" visible="false">
             <content>
-                <VBox fx:id="ResultVBox" alignment="CENTER" fillWidth="false">
+                <VBox fx:id="ResultVBox" alignment="TOP_CENTER" fillWidth="false">
                     <children>
                         <GridPane fx:id="FirstFollowGrid">
                             <columnConstraints>
