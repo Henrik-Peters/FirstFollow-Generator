@@ -6,6 +6,7 @@
     -fx-padding: 10px 100px 10px 100px;
     -fx-background-color: #FF7E22;
     -fx-background-radius: 0;
+    -fx-text-fill: black;
     -fx-cursor: hand;
 }
 
@@ -57,11 +58,12 @@
 }
 
 .grid-cell {
-    -fx-font: 20px "Consolas";
-    -fx-background-color: black, white;
-    -fx-background-insets: 0, 0 1 1 0;
+    -fx-font: 24px "Consolas";
+    -fx-background-color: black, #3F3F46;
+    -fx-background-insets: 0, 0 2 2 0;
     -fx-alignment: center;
-    -fx-padding: 10px;
+    -fx-text-fill: white;
+    -fx-padding: 15px;
 }
 
 .grid-cell-headline {
@@ -69,5 +71,5 @@
 }
 
 .grid-cell-firstCol {
-    -fx-background-insets: 0, 0 1 1 1;
+    -fx-background-insets: 0, 0 2 2 2;
 }
