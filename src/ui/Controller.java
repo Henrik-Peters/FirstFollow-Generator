@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
 public class Controller {
@@ -19,6 +20,8 @@ public class Controller {
     public ScrollPane ResultScrollPane;
     public GridPane FirstFollowGrid;
     public GridPane PredictGrid;
+    public AnchorPane BackBtn;
+    public VBox ResultVBox;
 
     /** Prototype reference for creating column constraints */
     final ColumnConstraints COLUMN_PROTOTYPE = new ColumnConstraints(
@@ -56,6 +59,7 @@ public class Controller {
         ClearGrid(FirstFollowGrid);
         ClearGrid(PredictGrid);
         ResultScrollPane.setVisible(true);
+        BackBtn.setVisible(true);
 
         AddHeadlines(FirstFollowGrid, "Symbol", "FIRST", "FOLLOW");
         AddHeadlines(PredictGrid, "Production", "PREDICT");
@@ -170,5 +174,10 @@ public class Controller {
         }
 
         grid.add(label, columnIndex, rowIndex);
+    }
+
+    public void Back(MouseEvent mouseEvent) {
+        ResultScrollPane.setVisible(false);
+        BackBtn.setVisible(false);
     }
 }

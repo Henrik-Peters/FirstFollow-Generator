@@ -48,6 +48,14 @@
 
 /* --------------------------- Result Grid --------------------------- */
 
+#ResultScrollPane {
+    -fx-background-color: #3F3F46;
+}
+
+#ResultVBox {
+    -fx-background-color: #3F3F46;
+}
+
 .grid-cell {
     -fx-font: 20px "Consolas";
     -fx-background-color: black, white;
