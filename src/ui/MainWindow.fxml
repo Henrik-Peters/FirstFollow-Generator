@@ -71,7 +71,7 @@
                 </VBox>
             </content>
         </ScrollPane>
-        <AnchorPane fx:id="BackBtn" maxHeight="30.0" maxWidth="30.0" onMouseClicked="#Back" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: #3F3F46;" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="1" StackPane.alignment="TOP_LEFT">
+        <AnchorPane fx:id="BackBtn" maxHeight="30.0" maxWidth="30.0" onMouseClicked="#Back" prefHeight="30.0" prefWidth="30.0" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="1" StackPane.alignment="TOP_LEFT">
             <children>
                 <Line endX="23.0" endY="15.0" fill="WHITE" startX="9.0" startY="15.0" stroke="WHITE" strokeWidth="3.0" />
                 <Circle fill="#1f93ff00" layoutX="15.0" layoutY="15.0" radius="15.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="2.0" />
@@ -81,9 +81,6 @@
             <StackPane.margin>
                 <Insets left="12.0" top="12.0" />
             </StackPane.margin>
-            <cursor>
-                <Cursor fx:constant="HAND" />
-            </cursor>
         </AnchorPane>
     </children>
 </StackPane>

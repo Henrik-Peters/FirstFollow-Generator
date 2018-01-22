@@ -57,6 +57,11 @@
     -fx-background-color: #3F3F46;
 }
 
+#BackBtn {
+    -fx-background-color: #3F3F46;
+    -fx-cursor: hand;
+}
+
 .grid-cell {
     -fx-font: 24px "Consolas";
     -fx-background-color: black, #3F3F46;
