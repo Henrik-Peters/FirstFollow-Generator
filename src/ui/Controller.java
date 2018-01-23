@@ -66,6 +66,15 @@ public class Controller {
     }
 
     /**
+     * Navigate back to the grammar input screen
+     * @param mouseEvent Event data of the mouse
+     */
+    public void Back(MouseEvent mouseEvent) {
+        ResultScrollPane.setVisible(false);
+        BackBtn.setVisible(false);
+    }
+
+    /**
      * Remove all children and constraints of a grid
      * @param grid Remove from this grid
      */
@@ -174,10 +183,5 @@ public class Controller {
         }
 
         grid.add(label, columnIndex, rowIndex);
-    }
-
-    public void Back(MouseEvent mouseEvent) {
-        ResultScrollPane.setVisible(false);
-        BackBtn.setVisible(false);
     }
 }
