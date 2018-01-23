@@ -5,6 +5,7 @@
 // ---------------------------------------------------------------------
 package generator;
 
+import java.util.Arrays;
 import java.util.HashSet;
 
 /**
@@ -12,6 +13,14 @@ import java.util.HashSet;
  * The toString() method will return the set in a readable format.
  */
 public class SymbolSet extends HashSet<Symbol> {
+
+    /**
+     * Create a new set of symbols
+     * @param symbols Add these symbols to the set
+     */
+    public SymbolSet(Symbol... symbols) {
+        this.addAll(Arrays.asList(symbols));
+    }
 
     @Override
     public String toString() {

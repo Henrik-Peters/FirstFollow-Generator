@@ -5,6 +5,7 @@
 // ---------------------------------------------------------------------
 package generator;
 
+import java.util.Arrays;
 import java.util.HashSet;
 
 /**
@@ -12,6 +13,14 @@ import java.util.HashSet;
  * The toString() method will return the set in a readable format.
  */
 public class ProductionSet extends HashSet<Production> {
+
+    /**
+     * Create a new set of productions
+     * @param productions Add these productions to the set
+     */
+    public ProductionSet(Production... productions) {
+        this.addAll(Arrays.asList(productions));
+    }
 
     @Override
     public String toString() {
