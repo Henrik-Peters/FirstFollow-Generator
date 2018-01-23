@@ -18,4 +18,12 @@ public class Terminal extends Symbol {
     public Terminal(String text) {
         super(text);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Terminal)) return false;
+        Terminal other = (Terminal)o;
+        return text.equals(other.text);
+    }
 }

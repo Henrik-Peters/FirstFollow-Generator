@@ -18,4 +18,12 @@ public class Nonterminal extends Symbol {
     public Nonterminal(String text) {
         super(text);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Nonterminal)) return false;
+        Nonterminal other = (Nonterminal)o;
+        return text.equals(other.text);
+    }
 }

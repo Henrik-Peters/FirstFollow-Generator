@@ -12,7 +12,7 @@ package generator;
 public abstract class Symbol implements Comparable<Symbol> {
 
     /** The content of the symbol */
-    private final String text;
+    protected final String text;
 
     /**
      * Create a new symbol and set the content of the symbol
