@@ -15,7 +15,7 @@ public abstract class Symbol implements Comparable<Symbol> {
     private String text;
 
     /**
-     * Create a new symbol and set the content of the symol
+     * Create a new symbol and set the content of the symbol
      * @param text Content of the new symbol
      */
     public Symbol(String text) {
