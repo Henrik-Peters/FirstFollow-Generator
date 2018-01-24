@@ -5,6 +5,8 @@
 // ---------------------------------------------------------------------
 package generator;
 
+import static generator.Singletons.*;
+
 /**
  * Represent the symbols of context-free grammars by this class.
  * A string is used to store the content of the symbol.
@@ -42,6 +44,6 @@ public abstract class Symbol implements Comparable<Symbol> {
 
     @Override
     public String toString() {
-        return text;
+        return (this == ε) ? "ε" : text;
     }
 }
