@@ -6,6 +6,7 @@
 package generator;
 
 import java.util.Arrays;
+import static generator.SymbolSet.*;
 
 /**
  * Contains all methods used to parse
@@ -21,12 +22,10 @@ public class GrammarParser {
     public static Grammar ParseGrammar(String[] lines) {
 
         //Parse nonterminals
-        Nonterminal[] nonterminalsArray = Arrays.stream(lines)
+        SymbolSet nonterminals = Arrays.stream(lines)
                 .map(line -> line.split("->")[0].trim())
-                .map(Nonterminal::new).toArray(Nonterminal[]::new);
-
-        SymbolSet nonterminals = new SymbolSet(nonterminalsArray);
-
+                .map(Nonterminal::new)
+                .collect(toSymbolSet());
 
         //Parse terminals
         SymbolSet terminals = new SymbolSet();
