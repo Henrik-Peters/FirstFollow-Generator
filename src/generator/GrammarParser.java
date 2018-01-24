@@ -7,6 +7,7 @@ package generator;
 
 import java.util.Arrays;
 import static generator.SymbolSet.*;
+import static generator.Singletons.*;
 
 /**
  * Contains all methods used to parse
@@ -28,11 +29,25 @@ public class GrammarParser {
                 .collect(toSymbolSet());
 
         //Parse terminals
-        SymbolSet terminals = new SymbolSet();
+        SymbolSet terminals = Arrays.stream(lines)
+                .map(line -> {
+                    String rightSide = line.split("->")[1].trim();
+
+                    for (Symbol n : nonterminals) {
+                        rightSide = rightSide.replaceAll(n.text, "");
+                    }
+
+                    rightSide = rightSide.replaceAll("\\|", "").trim();
+                    rightSide = rightSide.replaceAll("( )+", " ").trim();
+                    return rightSide;
+
+                }).filter(str -> !str.isEmpty())
+                .flatMap(str -> Arrays.stream(str.split(" ")))
+                .map(str -> (str.equals("ε")) ? ε : new Terminal(str))
+                .collect(toSymbolSet());
 
         //Parse productions
         ProductionSet productions = new ProductionSet();
-
 
         //Find the start symbol
         String startText = lines[0].split("->")[0].trim();
