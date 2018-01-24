@@ -11,6 +11,8 @@ import javafx.geometry.VPos;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import static generator.GrammarParser.*;
+import generator.Grammar;
 
 public class Controller {
     public TextArea GrammarBox;
@@ -60,6 +62,13 @@ public class Controller {
         ClearGrid(PredictGrid);
         ResultScrollPane.setVisible(true);
         BackBtn.setVisible(true);
+
+        String lineSeparator = System.getProperty("line.separator");
+        String[] grammarLines = GrammarBox.getText().split(lineSeparator);
+
+        Grammar grammar = ParseGrammar(grammarLines);
+        System.out.println("Grammar:");
+        System.out.println(grammar.toString());
 
         AddHeadlines(FirstFollowGrid, "Symbol", "FIRST", "FOLLOW");
         AddHeadlines(PredictGrid, "Production", "PREDICT");
