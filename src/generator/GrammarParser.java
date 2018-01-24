@@ -35,14 +35,12 @@ public class GrammarParser {
 
 
         //Find the start symbol
-        Nonterminal start = null;
         String startText = lines[0].split("->")[0].trim();
-
-        for (Symbol sy : nonterminals) {
-            if (sy.text.equals(startText)) {
-                start = (Nonterminal)sy;
-            }
-        }
+        Nonterminal start = nonterminals.stream()
+                .filter(n -> n.text.equals(startText))
+                .findFirst()
+                .map(Nonterminal.class::cast)
+                .orElse(null);
 
         return new Grammar(nonterminals, terminals, productions, start);
     }
