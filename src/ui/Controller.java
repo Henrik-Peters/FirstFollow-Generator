@@ -5,14 +5,17 @@
 // ---------------------------------------------------------------------
 package ui;
 
+import generator.*;
+import java.util.Map;
 import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+
 import static generator.GrammarParser.*;
-import generator.Grammar;
+import static generator.SetGenerator.*;
 
 public class Controller {
     public TextArea GrammarBox;
@@ -70,8 +73,21 @@ public class Controller {
         System.out.println("Grammar:");
         System.out.println(grammar.toString());
 
+        Map<Symbol, SymbolSet> firstSets = First(grammar);
+        Map<Symbol, SymbolSet> followSets = Follow(grammar);
+        Map<Production, SymbolSet> predictSets = Predict(grammar);
+
         AddHeadlines(FirstFollowGrid, "Symbol", "FIRST", "FOLLOW");
+
+        for (Symbol n : grammar.Nonterminals) {
+            AddRow(FirstFollowGrid, n.toString(), firstSets.get(n).toString(), followSets.get(n).toString());
+        }
+
         AddHeadlines(PredictGrid, "Production", "PREDICT");
+
+        for (Production p : grammar.Productions) {
+            AddRow(PredictGrid, p.toString(), predictSets.get(p).toString());
+        }
     }
 
     /**
