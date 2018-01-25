@@ -7,6 +7,7 @@ package ui;
 
 import generator.*;
 import java.util.Map;
+import java.util.stream.Collectors;
 import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
@@ -55,6 +56,9 @@ public class Controller {
     /** The style class name of cells in the first column */
     final String FIRST_COLUMN_STYLE_CLASS = "grid-cell-firstCol";
 
+    /** Additionally display the right side of production rules */
+    final boolean showFullProductions = true;
+
     /**
      * Start the grammar parsing, generate all sets,
      * switch to the result page and show the sets
@@ -80,7 +84,16 @@ public class Controller {
         AddHeadlines(FirstFollowGrid, "Symbol", "FIRST", "FOLLOW");
 
         for (Symbol n : grammar.Nonterminals) {
-            AddRow(FirstFollowGrid, n.toString(), firstSets.get(n).toString(), followSets.get(n).toString());
+            String symbol = n.toString();
+
+            if (showFullProductions) {
+                symbol += " -> " + grammar.Productions.stream()
+                        .filter(p -> p.LeftSide == n)
+                        .map(p -> p.RightSide.toString())
+                        .collect(Collectors.joining(" | "));
+            }
+
+            AddRow(FirstFollowGrid, symbol, firstSets.get(n).toString(), followSets.get(n).toString());
         }
 
         AddHeadlines(PredictGrid, "Production", "PREDICT");

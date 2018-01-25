@@ -6,13 +6,13 @@
 package generator;
 
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 /**
  * Set (no duplicates) to store productions for context-free grammars.
  * The toString() method will return the set in a readable format.
  */
-public class ProductionSet extends HashSet<Production> {
+public class ProductionSet extends LinkedHashSet<Production> {
 
     /**
      * Create a new set of productions
