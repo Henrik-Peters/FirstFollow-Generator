@@ -5,10 +5,7 @@
 // ---------------------------------------------------------------------
 package generator;
 
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
@@ -19,7 +16,7 @@ import java.util.stream.Collector;
  * Set (no duplicates) to store symbols for context-free grammars.
  * The toString() method will return the set in a readable format.
  */
-public class SymbolSet extends HashSet<Symbol> {
+public class SymbolSet extends LinkedHashSet<Symbol> {
 
     /**
      * Create a new set of symbols
