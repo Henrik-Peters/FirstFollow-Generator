@@ -103,4 +103,59 @@ public class SymbolSet extends LinkedHashSet<Symbol> {
     public static Collector<Symbol, SymbolSet, SymbolSet> toSymbolSet() {
         return symbolSetCollector;
     }
+
+    /**
+     * Create a new set with the elements that are in a or b
+     * @param a First set
+     * @param b Second set
+     * @return The new union set
+     */
+    public static SymbolSet Union(SymbolSet a, SymbolSet b) {
+        SymbolSet unionSet = new SymbolSet();
+        unionSet.addAll(a);
+        unionSet.addAll(b);
+        return unionSet;
+    }
+
+    /**
+     * Create a new set with the elements of a without the elements of b
+     * @param a First set
+     * @param b Second set
+     * @return The new difference set
+     */
+    public static SymbolSet Difference(SymbolSet a, SymbolSet b) {
+        SymbolSet diffSet = new SymbolSet();
+        diffSet.addAll(a);
+        diffSet.removeAll(b);
+        return diffSet;
+    }
+
+    /**
+     * Create a new set with all elements that are exclusive in a or b
+     * @param a First set
+     * @param b Second set
+     * @return The new symmetric difference set
+     */
+    public static SymbolSet SymmetricDifference(SymbolSet a, SymbolSet b) {
+        return Union(Difference(a, b), Difference(b, a));
+    }
+
+    /**
+     * Create a new set with all elements that are in a and b.
+     * The elements of a are used to construct the new set.
+     * @param a First set
+     * @param b Second set
+     * @return The new intersection set
+     */
+    public static SymbolSet Intersection(SymbolSet a, SymbolSet b) {
+        SymbolSet intersectSet = new SymbolSet();
+
+        for (Symbol sy : a) {
+            if (b.contains(sy)) {
+                intersectSet.add(sy);
+            }
+        }
+
+        return intersectSet;
+    }
 }
