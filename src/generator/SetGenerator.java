@@ -8,6 +8,9 @@ package generator;
 import java.util.HashMap;
 import java.util.Map;
 
+import static generator.Singletons.*;
+import static generator.SymbolSet.*;
+
 /**
  * Contains all methods used for the generation
  * of the first, follow and predict sets.
@@ -27,6 +30,39 @@ public class SetGenerator {
             firstSets.put(n, new SymbolSet());
         }
 
+        boolean setChanged;
+        SymbolSet set;
+
+        do {
+            setChanged = false;
+
+            for (Production rule : grammar.Productions) {
+                set = firstSets.get(rule.LeftSide);
+
+                for (Symbol sy : rule.RightSide) {
+
+                    if (sy instanceof Terminal) {
+                        set = Union(set, new SymbolSet(sy));
+                        if (sy != ε) break;
+
+                    } else {
+                        Nonterminal n = (Nonterminal)sy;
+                        set = Union(set, firstSets.get(n));
+
+                        if (!firstSets.get(n).contains(ε)) {
+                            break;
+                        }
+                    }
+                }
+
+                //Check if the set is growing
+                if (set.size() != firstSets.get(rule.LeftSide).size()) {
+                    firstSets.put(rule.LeftSide, set);
+                    setChanged = true;
+                }
+            }
+
+        } while (setChanged);
         return firstSets;
     }
 
