@@ -151,13 +151,82 @@ public class SetGenerator {
      * @return Map with all productions as keys and predict sets as values
      */
     public static Map<Production, SymbolSet> Predict(Grammar grammar) {
+        return Predict(grammar, First(grammar), Follow(grammar));
+    }
+
+    /**
+     * Generate the predict sets for a context-free grammar
+     * with the precomputed first and follow sets
+     * @param grammar The grammar for the generation
+     * @param firstSets The precomputed first sets
+     * @param followSets The precomputed follow sets
+     * @return Map with all productions as keys and predict sets as values
+     */
+    public static Map<Production, SymbolSet> Predict(Grammar grammar, Map<Symbol, SymbolSet> firstSets, Map<Symbol, SymbolSet> followSets) {
         Map<Production, SymbolSet> predictSets = new HashMap<>();
 
-        //Initialize with empty sets
         for (Production p : grammar.Productions) {
-            predictSets.put(p, new SymbolSet());
+            predictSets.put(p, First(grammar, firstSets, p.RightSide));
+            predictSets.get(p).remove(ε);
+
+            if (Nullable(grammar, firstSets, p.RightSide)) {
+                predictSets.put(p, Union(predictSets.get(p), followSets.get(p.LeftSide)));
+            }
         }
 
         return predictSets;
+    }
+
+    /**
+     * Generate the first set of a word
+     * @param grammar The grammar for the generation
+     * @param firstSets The precomputed first sets of the grammar
+     * @param word The word for the generation
+     * @return Set with all first symbols of the word
+     */
+    private static SymbolSet First(Grammar grammar, Map<Symbol, SymbolSet> firstSets, Word word) {
+        SymbolSet firstSet = new SymbolSet();
+
+        for (Symbol sy : word) {
+            if (sy instanceof Terminal) {
+                firstSet = Union(firstSet, new SymbolSet(sy));
+                if (sy != ε) break;
+
+            } else {
+                firstSet = Union(firstSet, firstSets.get(sy));
+
+                if (!firstSets.get(sy).contains(ε)) {
+                    break;
+                }
+            }
+        }
+
+        return firstSet;
+    }
+
+    /**
+     * Check if a word can be transformed into the empty word
+     * @param grammar The grammar for the generation
+     * @param firstSets The precomputed first sets of the grammar
+     * @param word The word for the generation
+     * @return True when the empty word can be derived
+     */
+    private static boolean Nullable(Grammar grammar, Map<Symbol, SymbolSet> firstSets, Word word) {
+        boolean nullable = true;
+
+        for (Symbol sy : word) {
+            if (sy instanceof Terminal) {
+                if (sy != ε) {
+                    nullable = false;
+                }
+
+            } else {
+                if (!firstSets.get(sy).contains(ε)) {
+                    nullable = false;
+                }
+            }
+        }
+
+        return nullable;
     }
 }

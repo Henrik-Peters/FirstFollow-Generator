@@ -79,7 +79,7 @@ public class Controller {
 
         Map<Symbol, SymbolSet> firstSets = First(grammar);
         Map<Symbol, SymbolSet> followSets = Follow(grammar, firstSets);
-        Map<Production, SymbolSet> predictSets = Predict(grammar);
+        Map<Production, SymbolSet> predictSets = Predict(grammar, firstSets, followSets);
 
         AddHeadlines(FirstFollowGrid, "Symbol", "FIRST", "FOLLOW");
 
