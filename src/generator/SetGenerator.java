@@ -5,7 +5,6 @@
 // ---------------------------------------------------------------------
 package generator;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -166,10 +165,10 @@ public class SetGenerator {
         Map<Production, SymbolSet> predictSets = new HashMap<>();
 
         for (Production p : grammar.Productions) {
-            predictSets.put(p, First(grammar, firstSets, p.RightSide));
+            predictSets.put(p, First(firstSets, p.RightSide));
             predictSets.get(p).remove(ε);
 
-            if (Nullable(grammar, firstSets, p.RightSide)) {
+            if (Nullable(firstSets, p.RightSide)) {
                 predictSets.put(p, Union(predictSets.get(p), followSets.get(p.LeftSide)));
             }
         }
@@ -179,12 +178,11 @@ public class SetGenerator {
 
     /**
      * Generate the first set of a word
-     * @param grammar The grammar for the generation
      * @param firstSets The precomputed first sets of the grammar
      * @param word The word for the generation
      * @return Set with all first symbols of the word
      */
-    private static SymbolSet First(Grammar grammar, Map<Symbol, SymbolSet> firstSets, Word word) {
+    private static SymbolSet First(Map<Symbol, SymbolSet> firstSets, Word word) {
         SymbolSet firstSet = new SymbolSet();
 
         for (Symbol sy : word) {
@@ -206,12 +204,11 @@ public class SetGenerator {
 
     /**
      * Check if a word can be transformed into the empty word
-     * @param grammar The grammar for the generation
      * @param firstSets The precomputed first sets of the grammar
      * @param word The word for the generation
      * @return True when the empty word can be derived
      */
-    private static boolean Nullable(Grammar grammar, Map<Symbol, SymbolSet> firstSets, Word word) {
+    private static boolean Nullable(Map<Symbol, SymbolSet> firstSets, Word word) {
         boolean nullable = true;
 
         for (Symbol sy : word) {
