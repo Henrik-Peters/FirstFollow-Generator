@@ -78,7 +78,7 @@ public class Controller {
         System.out.println(grammar.toString());
 
         Map<Symbol, SymbolSet> firstSets = First(grammar);
-        Map<Symbol, SymbolSet> followSets = Follow(grammar);
+        Map<Symbol, SymbolSet> followSets = Follow(grammar, firstSets);
         Map<Production, SymbolSet> predictSets = Predict(grammar);
 
         AddHeadlines(FirstFollowGrid, "Symbol", "FIRST", "FOLLOW");

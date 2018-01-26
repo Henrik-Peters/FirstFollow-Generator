@@ -5,6 +5,7 @@
 // ---------------------------------------------------------------------
 package generator;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -72,6 +73,17 @@ public class SetGenerator {
      * @return Map with all nonterminals as keys and follow sets as values
      */
     public static Map<Symbol, SymbolSet> Follow(Grammar grammar) {
+        return Follow(grammar, First(grammar));
+    }
+
+    /**
+     * Generate the follow sets for a context-free grammar
+     * with the precomputed first sets
+     * @param grammar The grammar for the generation
+     * @param firstSets The precomputed first sets
+     * @return Map with all nonterminals as keys and follow sets as values
+     */
+    public static Map<Symbol, SymbolSet> Follow(Grammar grammar, Map<Symbol, SymbolSet> firstSets) {
         Map<Symbol, SymbolSet> followSets = new HashMap<>();
 
         //Initialize with empty sets
@@ -79,6 +91,57 @@ public class SetGenerator {
             followSets.put(n, new SymbolSet());
         }
 
+        //Add the end-marker to the start symbol
+        followSets.get(grammar.StartSymbol).add(Endmarker);
+
+        boolean setChanged;
+        SymbolSet set;
+
+        do {
+            setChanged = false;
+
+            for (Production rule : grammar.Productions) {
+                for (Symbol sy : rule.RightSide) {
+
+                    if (sy instanceof Nonterminal) {
+                        Nonterminal n = (Nonterminal)sy;
+                        set = followSets.get(n);
+
+                        //All symbols after the current nonterminal
+                        Word restWord = rule.RightSide.rightOf(n);
+
+                        if (restWord.isEmpty()) {
+                            set = Union(set, followSets.get(rule.LeftSide));
+
+                        } else {
+                            for (Symbol item : restWord) {
+
+                                if (item instanceof Terminal) {
+                                    set = Union(set, new SymbolSet(item));
+                                    if (item != ε) break;
+
+                                } else {
+                                    set = Union(set, Difference(firstSets.get(item), εSet));
+
+                                    if (firstSets.get(item).contains(ε) && item == rule.RightSide.last()) {
+                                        set = Union(set, followSets.get(rule.LeftSide));
+                                    } else {
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        //Check if the set is growing
+                        if (set.size() != followSets.get(n).size()) {
+                            followSets.put(n, set);
+                            setChanged = true;
+                        }
+                    }
+                }
+            }
+
+        } while (setChanged);
         return followSets;
     }
 

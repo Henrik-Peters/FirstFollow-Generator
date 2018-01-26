@@ -7,6 +7,7 @@ package generator;
 
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.function.Consumer;
 
 /**
@@ -24,6 +25,14 @@ public class Word implements Comparable<Word>, Iterable<Symbol> {
      */
     public Word(Symbol... symbols) {
         this.symbols = symbols;
+    }
+
+    /**
+     * Check if this word contains no symbols
+     * @return True when the word has no symbols
+     */
+    public boolean isEmpty() {
+        return symbols.length == 0;
     }
 
     @Override
@@ -66,6 +75,70 @@ public class Word implements Comparable<Word>, Iterable<Symbol> {
         for (Symbol symbol : symbols) {
             action.accept(symbol);
         }
+    }
+
+    /**
+     * Get the first symbol of the word
+     * @return The first symbol
+     */
+    public Symbol first() {
+        if (isEmpty()) {
+            throw new IllegalStateException("First called on an empty word");
+        } else {
+            return symbols[0];
+        }
+    }
+
+    /**
+     * Get the last symbol of the word
+     * @return The last symbol
+     */
+    public Symbol last() {
+        if (isEmpty()) {
+            throw new IllegalStateException("Last called on an empty word");
+        } else {
+            return symbols[symbols.length - 1];
+        }
+    }
+
+    /**
+     * Create a new word with all symbols on the left side of sy
+     * @param sy Take all symbols until this symbol is found
+     * @return Word with all left symbols of sy (excluding sy)
+     */
+    public Word leftOf(Symbol sy) {
+        int index = indexOf(sy);
+
+        if (index == -1) {
+            throw new NoSuchElementException("Symbol " + sy.toString() + " not found");
+
+        } else {
+            return new Word(Arrays.copyOfRange(symbols, 0, index));
+        }
+    }
+
+    /**
+     * Create a new word with all symbols on the right side of sy
+     * @param sy Skip all symbols until this symbol is found
+     * @return Word with all right symbols of sy (excluding sy)
+     */
+    public Word rightOf(Symbol sy) {
+        int index = indexOf(sy);
+
+        if (index == -1) {
+            throw new NoSuchElementException("Symbol " + sy.toString() + " not found");
+
+        } else {
+            return new Word(Arrays.copyOfRange(symbols, indexOf(sy) + 1, symbols.length));
+        }
+    }
+
+    private int indexOf(Symbol sy) {
+        for (int i = 0; i < symbols.length; i++) {
+            if (symbols[i] == sy) return i;
+        }
+
+        return -1;
     }
 
     @Override
