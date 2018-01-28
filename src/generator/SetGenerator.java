@@ -122,8 +122,8 @@ public class SetGenerator {
                                 } else {
                                     set = Union(set, Difference(firstSets.get(item), εSet));
 
-                                    if (firstSets.get(item).contains(ε) && item == rule.RightSide.last()) {
-                                        set = Union(set, followSets.get(rule.LeftSide));
+                                    if (firstSets.get(item).contains(ε)) {
+                                        set = Union(set, followSets.get(item));
                                     } else {
                                         break;
                                     }

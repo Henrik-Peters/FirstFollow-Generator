@@ -23,7 +23,7 @@ class GeneratorTest {
         Grammar g = ParseGrammar(lines);
         assertEquals("({S, A, B, C}, {a, b, ε, c}, {S -> A B C, A -> C, A -> a, B -> b, B -> ε, C -> c}, S)", g.toString());
         assertEquals("{A={a, c}, B={b, ε}, S={a, c}, C={c}}", First(g).toString());
-        assertEquals("{A={b}, B={c}, S={$}, C={$, b}}", Follow(g).toString());
+        assertEquals("{A={b, c}, B={c}, S={$}, C={$, b, c}}", Follow(g).toString());
         assertEquals("{A -> a={a}, B -> b={b}, C -> c={c}, A -> C={c}, S -> A B C={a, c}, B -> ε={c}}", Predict(g).toString());
     }
 
