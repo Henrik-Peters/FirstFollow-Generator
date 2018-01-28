@@ -21,6 +21,10 @@ public class GrammarParser {
      * @return The parsed context-free grammar
      */
     public static Grammar ParseGrammar(String[] lines) {
+        //Remove invalid lines
+        lines = Arrays.stream(lines)
+                .filter(line -> line.contains("->"))
+                .toArray(String[]::new);
 
         //Parse nonterminals
         SymbolSet nonterminals = Arrays.stream(lines)
