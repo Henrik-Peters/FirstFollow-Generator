@@ -28,12 +28,17 @@ public class GrammarParser {
                 .map(Nonterminal::new)
                 .collect(toSymbolSet());
 
+        //Sort the nonterminals by their length for the longest match
+        Nonterminal[] sortedNonterminals = nonterminals.stream()
+                .sorted((a, b) -> b.text.length() - a.text.length())
+                .toArray(Nonterminal[]::new);
+
         //Parse terminals
         SymbolSet terminals = Arrays.stream(lines)
                 .map(line -> {
                     String rightSide = line.split("->")[1].trim();
 
-                    for (Symbol n : nonterminals) {
+                    for (Symbol n : sortedNonterminals) {
                         rightSide = rightSide.replaceAll(n.text, "");
                     }
 
@@ -46,19 +51,14 @@ public class GrammarParser {
                 .map(str -> (str.equals("ε")) ? ε : new Terminal(str))
                 .collect(toSymbolSet());
 
-
-        //Parse productions
-        ProductionSet productions = new ProductionSet();
-
-        //Sort the nonterminals by their length for the longest match
-        Nonterminal[] sortedNonterminals = nonterminals.stream()
-                .sorted((a, b) -> b.text.length() - a.text.length())
-                .toArray(Nonterminal[]::new);
-
         //Sort the terminals by their length for the longest match
         Terminal[] sortedTerminals = terminals.stream()
                 .sorted((a, b) -> b.text.length() - a.text.length())
                 .toArray(Terminal[]::new);
+
+
+        //Parse productions
+        ProductionSet productions = new ProductionSet();
 
         for (String line : lines) {
             String[] lineSplit = line.split("->");
