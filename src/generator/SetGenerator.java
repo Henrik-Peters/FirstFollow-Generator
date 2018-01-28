@@ -47,7 +47,7 @@ public class SetGenerator {
 
                     } else {
                         Nonterminal n = (Nonterminal)sy;
-                        set = Union(set, firstSets.get(n));
+                        set = Union(set, Difference(firstSets.get(n), εSet));
 
                         if (!firstSets.get(n).contains(ε)) {
                             break;

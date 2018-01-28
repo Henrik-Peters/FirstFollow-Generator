@@ -39,8 +39,23 @@ class GeneratorTest {
         };
         Grammar g = ParseGrammar(lines);
         assertEquals("({S, A, B, C, D, E}, {a, ε, b, c, d, e}, {S -> A B C D E, A -> a, A -> ε, B -> b, B -> ε, C -> c, D -> d, D -> ε, E -> e, E -> ε}, S)", g.toString());
-        assertEquals("{A={a, ε}, B={b, ε}, S={a, ε, b, c}, C={c}, D={d, ε}, E={e, ε}}", First(g).toString());
+        assertEquals("{A={a, ε}, B={b, ε}, S={a, b, c}, C={c}, D={d, ε}, E={e, ε}}", First(g).toString());
         assertEquals("{A={b, c}, B={c}, S={$}, C={d, e, $}, D={e, $}, E={$}}", Follow(g).toString());
-        assertEquals("", Predict(g).toString());
+        assertEquals("{A -> a={a}, B -> b={b}, C -> c={c}, D -> d={d}, E -> e={e}, S -> A B C D E={a, b, c}, E -> ε={$}, D -> ε={e, $}, B -> ε={c}, A -> ε={b, c}}", Predict(g).toString());
+    }
+
+    @Test
+    void testX() {
+        String[] lines = new String[]{
+                "S -> A C",
+                "A -> B a",
+                "B -> b | ε",
+                "C -> c"
+        };
+        Grammar g = ParseGrammar(lines);
+        assertEquals("({S, A, B, C}, {a, b, ε, c}, {S -> A C, A -> B a, B -> b, B -> ε, C -> c}, S)", g.toString());
+        assertEquals("{A={b, a}, B={b, ε}, S={b, a}, C={c}}", First(g).toString());
+        assertEquals("{A={c}, B={a}, S={$}, C={$}}", Follow(g).toString());
+        assertEquals("{A -> B a={b, a}, B -> b={b}, C -> c={c}, S -> A C={b, a}, B -> ε={a}}", Predict(g).toString());
     }
 }
