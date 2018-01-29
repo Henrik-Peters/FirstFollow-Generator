@@ -45,7 +45,7 @@ class GeneratorTest {
     }
 
     @Test
-    void testX() {
+    void testPartialEmptyWord() {
         String[] lines = new String[]{
                 "S -> A C",
                 "A -> B a",
@@ -57,5 +57,36 @@ class GeneratorTest {
         assertEquals("{A={b, a}, B={b, ε}, S={b, a}, C={c}}", First(g).toString());
         assertEquals("{A={c}, B={a}, S={$}, C={$}}", Follow(g).toString());
         assertEquals("{A -> B a={b, a}, B -> b={b}, C -> c={c}, S -> A C={b, a}, B -> ε={a}}", Predict(g).toString());
+    }
+
+    @Test
+    void testTransitiveEmptyWord() {
+        String[] lines = new String[]{
+                "S -> A",
+                "A -> B",
+                "B -> b",
+                "B -> ε"
+        };
+        Grammar g = ParseGrammar(lines);
+        assertEquals("({S, A, B}, {b, ε}, {S -> A, A -> B, B -> b, B -> ε}, S)", g.toString());
+        assertEquals("{A={b, ε}, B={b, ε}, S={b, ε}}", First(g).toString());
+        assertEquals("{A={$}, B={$}, S={$}}", Follow(g).toString());
+        assertEquals("{B -> b={b}, A -> B={b, $}, S -> A={b, $}, B -> ε={$}}", Predict(g).toString());
+    }
+
+    @Test
+    void testTransitiveMultiEmptyWord() {
+        String[] lines = new String[]{
+                "S -> A C",
+                "A -> B",
+                "B -> b",
+                "B -> ε",
+                "C -> ε"
+        };
+        Grammar g = ParseGrammar(lines);
+        assertEquals("({S, A, B, C}, {b, ε}, {S -> A C, A -> B, B -> b, B -> ε, C -> ε}, S)", g.toString());
+        assertEquals("{A={b, ε}, B={b, ε}, S={b, ε}, C={ε}}", First(g).toString());
+        assertEquals("{A={$}, B={$}, S={$}, C={$}}", Follow(g).toString());
+        assertEquals("{B -> b={b}, S -> A C={b, $}, A -> B={b, $}, C -> ε={$}, B -> ε={$}}", Predict(g).toString());
     }
 }
