@@ -43,13 +43,18 @@ public class SetGenerator {
 
                     if (sy instanceof Terminal) {
                         set = Union(set, new SymbolSet(sy));
-                        if (sy != ε) break;
+                        break;
 
                     } else {
                         Nonterminal n = (Nonterminal)sy;
                         set = Union(set, Difference(firstSets.get(n), εSet));
 
-                        if (!firstSets.get(n).contains(ε)) {
+                        if (firstSets.get(n).contains(ε)) {
+                            if (n == rule.RightSide.last()) {
+                                set = Union(set, εSet);
+                            }
+
+                        } else {
                             break;
                         }
                     }
@@ -117,7 +122,7 @@ public class SetGenerator {
 
                                 if (item instanceof Terminal) {
                                     set = Union(set, new SymbolSet(item));
-                                    if (item != ε) break;
+                                    break;
 
                                 } else {
                                     set = Union(set, Difference(firstSets.get(item), εSet));
