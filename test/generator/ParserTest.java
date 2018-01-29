@@ -132,6 +132,27 @@ class ParserTest {
     }
 
     @Test
+    void testNonterminalReplace() {
+        String[] lines = new String[]{
+                "S -> A* | AAA",
+                "A* -> a | AAA"
+        };
+        Grammar g = ParseGrammar(lines);
+        assertEquals("({S, A*}, {AAA, a}, {S -> A*, S -> AAA, A* -> a, A* -> AAA}, S)", g.toString());
+    }
+
+    @Test
+    void testNonterminalInlineReplace() {
+        String[] lines = new String[]{
+                "S -> A | xABx",
+                "A -> a | x AB x",
+                "AB -> a"
+        };
+        Grammar g = ParseGrammar(lines);
+        assertEquals("({S, A, AB}, {xABx, a, x}, {S -> A, S -> xABx, A -> a, A -> x AB x, AB -> a}, S)", g.toString());
+    }
+
+    @Test
     void testMissingWhitespaces() {
         String[] lines = new String[]{
                 "S -> AB C",
