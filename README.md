@@ -3,7 +3,7 @@
 Generate the first, follow and predict sets of a given context-free grammar. These sets are useful for the construction
 of predictive parsers to avoid backtracking. This generator comes with a basic user interface to display the sets and
 the context-free grammar in a human-friendly format. The purpose of this program is to allow an inside into the parser
-construction theory.
+construction theory. The generated sets are used by many different types of parsers.
 
 ## Building
 
@@ -39,6 +39,12 @@ a correct parsing process:
 * The end-of-file marker will be added automatically for the follow sets
 * The start symbol will be the left side of the first production rule
 * The empty word is represented by &#949; 'greek small letter epsilon' (U+03B5)
+
+## &#949;-Productions
+The empty production is written with &#949; on the right side, for example: _N_ -> &#949;.
+Concatenation with &#949; is not possible. By allowing &#949; to be in first(_N_), we can
+avoid using a nullable set. When there is an empty production for a nonterminal _N_ than &#949;
+will be in first(_N_). Notice that &#949; will never be in the follow or predict sets.
 
 ## Error handling
 
