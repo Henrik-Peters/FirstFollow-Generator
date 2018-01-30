@@ -70,9 +70,7 @@ public class Controller {
         ResultScrollPane.setVisible(true);
         BackBtn.setVisible(true);
 
-        String lineSeparator = System.getProperty("line.separator");
-        String[] grammarLines = GrammarBox.getText().split(lineSeparator);
-
+        String[] grammarLines = GrammarBox.getText().split("\n");
         Grammar grammar = ParseGrammar(grammarLines);
         System.out.println("Grammar:");
         System.out.println(grammar.toString());
