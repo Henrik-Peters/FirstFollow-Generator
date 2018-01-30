@@ -43,7 +43,7 @@ public class GrammarParser {
                     String rightSide = line.split("->")[1].trim();
 
                     for (Symbol n : sortedNonterminals) {
-                        rightSide = rightSide.replaceAll(n.text, "");
+                        rightSide = rightSide.replace(n.text, "");
                     }
 
                     rightSide = rightSide.replaceAll("\\|", "").trim();
