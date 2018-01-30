@@ -149,7 +149,7 @@ class ParserTest {
                 "AB -> a"
         };
         Grammar g = ParseGrammar(lines);
-        assertEquals("({S, A, AB}, {xABx, a, x}, {S -> A, S -> xABx, A -> a, A -> x AB x, AB -> a}, S)", g.toString());
+        assertEquals("({S, A, AB}, {xx, a, x}, {S -> A, S -> x AB x, A -> a, A -> x AB x, AB -> a}, S)", g.toString());
     }
 
     @Test
@@ -218,5 +218,29 @@ class ParserTest {
         };
         Grammar g = ParseGrammar(lines);
         assertEquals("({S, A}, {a}, {S -> A, A -> a}, S)", g.toString());
+    }
+
+    @Test
+    void testSingleUnusedProduction() {
+        String[] lines = new String[]{
+                "S -> A",
+                "A -> a | b",
+                "B -> c"
+        };
+        Grammar g = ParseGrammar(lines);
+        assertEquals("({S, A, B}, {a, b, c}, {S -> A, A -> a, A -> b, B -> c}, S)", g.toString());
+    }
+
+    @Test
+    void testUnusedProductions() {
+        String[] lines = new String[]{
+                "S -> A",
+                "D -> f",
+                "A -> a | b | C",
+                "B -> c",
+                "C -> S"
+        };
+        Grammar g = ParseGrammar(lines);
+        assertEquals("({S, D, A, B, C}, {f, a, b, c}, {S -> A, D -> f, A -> a, A -> b, A -> C, B -> c, C -> S}, S)", g.toString());
     }
 }
