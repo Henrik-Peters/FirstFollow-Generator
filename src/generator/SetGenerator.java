@@ -105,6 +105,8 @@ public class SetGenerator {
             setChanged = false;
 
             for (Production rule : grammar.Productions) {
+                int symbolIndex = 0;
+
                 for (Symbol sy : rule.RightSide) {
 
                     if (sy instanceof Nonterminal) {
@@ -112,7 +114,7 @@ public class SetGenerator {
                         set = followSets.get(n);
 
                         //All symbols after the current nonterminal
-                        Word restWord = rule.RightSide.rightOf(n);
+                        Word restWord = rule.RightSide.subWord(symbolIndex + 1);
 
                         if (restWord.isEmpty()) {
                             set = Union(set, followSets.get(rule.LeftSide));
@@ -142,6 +144,8 @@ public class SetGenerator {
                             setChanged = true;
                         }
                     }
+
+                    symbolIndex++;
                 }
             }
 

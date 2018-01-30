@@ -133,6 +133,15 @@ public class Word implements Comparable<Word>, Iterable<Symbol> {
         }
     }
 
+    /**
+     * Create a new word that starts with the specified beginIndex
+     * @param beginIndex Skip this number of symbols
+     * @return Word that starts with the symbol of beginIndex
+     */
+    public Word subWord(int beginIndex) {
+        return new Word(Arrays.copyOfRange(symbols, beginIndex, symbols.length));
+    }
+
     private int indexOf(Symbol sy) {
         for (int i = 0; i < symbols.length; i++) {
             if (symbols[i] == sy) return i;
