@@ -89,4 +89,48 @@ class GeneratorTest {
         assertEquals("{A={$}, B={$}, S={$}, C={$}}", Follow(g).toString());
         assertEquals("{B -> b={b}, S -> A C={b, $}, A -> B={b, $}, C -> ε={$}, B -> ε={$}}", Predict(g).toString());
     }
+
+    @Test
+    void testIdenticalSymbols() {
+        String[] lines = new String[]{
+                "S -> a A b A c",
+                "A -> x"
+        };
+        Grammar g = ParseGrammar(lines);
+        assertEquals("({S, A}, {a, b, c, x}, {S -> a A b A c, A -> x}, S)", g.toString());
+        assertEquals("{A={x}, S={a}}", First(g).toString());
+        assertEquals("{A={b, c}, S={$}}", Follow(g).toString());
+        assertEquals("{A -> x={x}, S -> a A b A c={a}}", Predict(g).toString());
+    }
+
+    @Test
+    void testCombinedGrammarA() {
+        String[] lines = new String[]{
+                "F -> ( E ) | id",
+                "E -> T | G",
+                "G -> + T G | ε",
+                "T -> F L",
+                "L -> * F L | ε"
+        };
+        Grammar g = ParseGrammar(lines);
+        assertEquals("({F, E, G, T, L}, {(, ), id, +, ε, *}, {F -> ( E ), F -> id, E -> T, E -> G, G -> + T G, G -> ε, T -> F L, L -> * F L, L -> ε}, F)", g.toString());
+        assertEquals("{T={(, id}, E={(, id, +, ε}, F={(, id}, G={+, ε}, L={*, ε}}", First(g).toString());
+        assertEquals("{T={), +}, E={)}, F={$, *, ), +}, G={)}, L={), +}}", Follow(g).toString());
+        assertEquals("{E -> G={+, )}, T -> F L={(, id}, L -> ε={), +}, F -> id={id}, L -> * F L={*}, G -> + T G={+}, F -> ( E )={(}, G -> ε={)}, E -> T={(, id}}", Predict(g).toString());
+    }
+
+    @Test
+    void testCombinedGrammarB() {
+        String[] lines = new String[]{
+                "S -> E",
+                "E -> E + T | E - T | T",
+                "T -> T * F | T / F | F",
+                "F -> ( E ) | id | num"
+        };
+        Grammar g = ParseGrammar(lines);
+        assertEquals("({S, E, T, F}, {+, -, *, /, (, ), id, num}, {S -> E, E -> E + T, E -> E - T, E -> T, T -> T * F, T -> T / F, T -> F, F -> ( E ), F -> id, F -> num}, S)", g.toString());
+        assertEquals("{S={(, id, num}, T={(, id, num}, E={(, id, num}, F={(, id, num}}", First(g).toString());
+        assertEquals("{S={$}, T={$, +, -, *, /, )}, E={$, +, -, )}, F={$, +, -, *, /, )}}", Follow(g).toString());
+        assertEquals("{F -> num={num}, S -> E={(, id, num}, T -> F={(, id, num}, F -> id={id}, E -> E - T={(, id, num}, T -> T / F={(, id, num}, F -> ( E )={(}, E -> E + T={(, id, num}, T -> T * F={(, id, num}, E -> T={(, id, num}}", Predict(g).toString());
+    }
 }
