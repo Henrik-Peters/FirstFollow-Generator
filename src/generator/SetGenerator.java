@@ -193,12 +193,17 @@ public class SetGenerator {
         for (Symbol sy : word) {
             if (sy instanceof Terminal) {
                 firstSet = Union(firstSet, new SymbolSet(sy));
-                if (sy != ε) break;
+                break;
 
             } else {
-                firstSet = Union(firstSet, firstSets.get(sy));
+                firstSet = Union(firstSet, Difference(firstSets.get(sy), εSet));
 
-                if (!firstSets.get(sy).contains(ε)) {
+                if (firstSets.get(sy).contains(ε)) {
+                    if (sy == word.last()) {
+                        firstSet = Union(firstSet, εSet);
+                    }
+
+                } else {
                     break;
                 }
             }
