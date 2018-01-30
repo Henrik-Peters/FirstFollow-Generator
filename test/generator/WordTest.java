@@ -163,4 +163,20 @@ class WordTest {
         assertEquals("", w.rightOf(D).toString());
         assertThrows(NoSuchElementException.class, () -> w.rightOf(X));
     }
+
+    @Test
+    void testSubWord() {
+        Terminal A = new Terminal("A");
+        Terminal B = new Terminal("B");
+        Terminal C = new Terminal("C");
+        Terminal D = new Terminal("D");
+        Word w = new Word(A, B, C, D);
+
+        assertEquals("A B C D", w.subWord(0).toString());
+        assertEquals("B C D", w.subWord(1).toString());
+        assertEquals("C D", w.subWord(2).toString());
+        assertEquals("D", w.subWord(3).toString());
+        assertEquals("", w.subWord(4).toString());
+        assertThrows(IllegalArgumentException.class, () -> w.subWord(5));
+    }
 }
